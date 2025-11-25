@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Gestión PYME</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+
+      .sidebar-item {
+        transition: all 0.2s ease;
+      }
+
+      .sidebar-item:hover {
+        background: rgba(59, 130, 246, 0.1);
+        border-left: 3px solid #3b82f6;
+      }
+
+      .sidebar-item.active {
+        background: rgba(59, 130, 246, 0.15);
+        border-left: 3px solid #3b82f6;
+        color: #3b82f6;
+      }
+
+      .card {
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .table-row:hover {
+        background: #f9fafb;
+      }
+
+      .btn-primary {
+        background: #3b82f6;
+        color: white;
+        transition: all 0.2s ease;
+      }
+
+      .btn-primary:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+      }
+
+      .stat-card {
+        border-left: 4px solid;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+
+        .sidebar.open {
+          transform: translateX(0);
+        }
+      }
+    </style>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  <body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+      <aside id="sidebar" class="sidebar fixed md:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 overflow-y-auto">
+        <div class="p-4 border-b border-gray-200">
+          <div class="flex items-center justify-between">
+            <h1 class="text-xl font-bold text-gray-800">PYME Gestión</h1>
+            <button id="closeSidebar" class="md:hidden text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <nav class="p-4 space-y-1">
+          <a href="#" class="sidebar-item active flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="dashboard">
+            <i class="fas fa-chart-line w-5"></i>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="facturas">
+            <i class="fas fa-file-invoice w-5"></i>
+            <span>Facturación</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="contratos">
+            <i class="fas fa-file-contract w-5"></i>
+            <span>Contratos</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="empleados">
+            <i class="fas fa-users w-5"></i>
+            <span>Empleados</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="taller">
+            <i class="fas fa-wrench w-5"></i>
+            <span>Taller</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="software">
+            <i class="fas fa-code w-5"></i>
+            <span>Desarrollo Software</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="infraestructura">
+            <i class="fas fa-network-wired w-5"></i>
+            <span>Infraestructura</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="contactos">
+            <i class="fas fa-address-book w-5"></i>
+            <span>Contactos</span>
+          </a>
+
+          <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" data-section="precios">
+            <i class="fas fa-tags w-5"></i>
+            <span>Precios</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <header class="bg-white border-b border-gray-200 px-4 md:px-6 py-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <button id="menuToggle" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+              </button>
+              <h2 id="pageTitle" class="text-xl md:text-2xl font-semibold text-gray-800">Dashboard</h2>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button class="hidden md:block text-gray-600 hover:text-gray-800">
+                <i class="fas fa-bell text-lg"></i>
+              </button>
+              <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                  AD
+                </div>
+                <span class="hidden md:inline text-sm text-gray-700">Admin</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-6">
+          <div id="content"></div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
